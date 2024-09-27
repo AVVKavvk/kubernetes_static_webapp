@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app
+  namespace: web-app # this for node
+spec: # this for pod
+  selector:
+    matchLabels:
+      app: react-app
+  template:
+    metadata:
+      labels:
+        app: react-app
+    spec:
+      containers:
+      - name: react-app
+        image: avvkvipin/simplepage:1.1.1
+        ports:
+        - containerPort: 3000
+
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-service
+  namespace: web-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: react-app
+  ports:
+  - port: 3000
+    targetPort: 3000
